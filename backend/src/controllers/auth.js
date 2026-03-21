@@ -14,7 +14,7 @@ async function registerUser(req, res) {
         .json({ message: "User already exists, Please login" });
     }
 
-    await User.create({
+    const userData = await User.create({
       fullname,
       email,
       password: hashedPassword,
@@ -22,11 +22,17 @@ async function registerUser(req, res) {
 
     const token = jwt.sign({ userId: User._id }, process.env.JWT_SECRET);
     res.cookie("token", token);
-    res.status(201).json({ message: "User created successfully" });
+    res.status(201).json({
+      message: "User created successfully",
+      user: {
+        _id: userData._id,
+        fullname: userData.fullname,
+        email: userData.email,
+      },
+    });
   } catch (error) {
     res.status(400).json({ message: "Something went wrong" });
-
-    console.log("Error while connecting user", error);
+    console.log("Error while creating user", error);
   }
 }
 
@@ -41,6 +47,28 @@ async function getUsers(req, res) {
   }
 }
 
-async function login(req, res) {}
+async function loginUser(req, res) {
+  const { email, password } = req.body;
 
-module.exports = { registerUser, getUsers };
+  try {
+    const existingUser = await User.findOne({ email });
+
+    if (!existingUser) {
+      return res
+        .status(400)
+        .json({ message: "User not found, Please sign up" });
+    }
+    const isMatch = await bcrypt.compare(password, existingUser.password);
+
+    if (!isMatch) {
+      return res.status(400).json({ message: "Please enter correct password" });
+    }
+
+    res.status(200).json({ message: "login successfull" });
+  } catch (error) {
+    res.status(400).json({ message: "Something went wrong" });
+    console.log("Error while login user", error);
+  }
+}
+
+module.exports = { registerUser, getUsers, loginUser };
