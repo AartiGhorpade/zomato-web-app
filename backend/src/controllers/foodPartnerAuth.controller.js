@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const FoodPartner = require("../models/foodPartner.model");
 
 async function registerPartner(req, res) {
-  const { email, password, fullname } = req.body;
+  const { email, password, fullname, phone, address } = req.body;
   const existingPartner = await FoodPartner.findOne({ email });
   const hashPassword = await bcrypt.hash(password, 10);
 
@@ -18,6 +18,8 @@ async function registerPartner(req, res) {
       email,
       fullname,
       password: hashPassword,
+      phone,
+      address,
     });
 
     const token = jwt.sign({ partnerId: partner._id }, process.env.JWT_SECRET);
@@ -29,6 +31,8 @@ async function registerPartner(req, res) {
         id: partner._id,
         name: partner.fullname,
         email: partner.email,
+        phone: partner.phone,
+        address: partner.address,
       },
     });
   } catch (error) {

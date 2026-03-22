@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import PasswordInput from '../../components/PasswordInput'
 import '../../styles/form.css'
+import axios from 'axios'
 
 const UserSignup = () => {
     const [fullName, setFullName] = useState('')
