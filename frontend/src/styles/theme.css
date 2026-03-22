@@ -1,0 +1,93 @@
+/* ═══════════════════════════════════════════════════════════════ */
+/*                         DARK THEME                              */
+/* ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Background & Surface */
+  --bg: #0f172a;
+  --card: #1e293b;
+  
+  /* Text Colors */
+  --text: #e2e8f0;
+  --text-secondary: #cbd5e1;
+  --subtext: #94a3b8;
+  
+  /* Input & Form */
+  --input: #334155;
+  --input-hover: #475569;
+  
+  /* Borders */
+  --border: #475569;
+  --border-light: #64748b;
+  
+  /* Primary Color */
+  --primary: #8366ec;
+  --primary-hover: #724cfb;
+  --primary-light: #a68ff8;
+  --primary-shadow: rgba(149, 13, 202, 0.1);
+  
+  /* Success */
+  --success: #10b981;
+  --success-hover: #059669;
+  
+  /* Error */
+  --error: #ef4444;
+  --error-hover: #dc2626;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 12px 0 rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 24px 0 rgba(0, 0, 0, 0.3);
+  
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-smooth: 0.3s ease;
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/*                         LIGHT THEME                             */
+/* ═══════════════════════════════════════════════════════════════ */
+
+@media (prefers-color-scheme: light) {
+  :root {
+    /* Background & Surface */
+    --bg: #f8fafc;
+    --card: #ffffff;
+    
+    /* Text Colors */
+    --text: #0f172a;
+    --text-secondary: #334155;
+    --subtext: #64748b;
+    
+    /* Input & Form */
+    --input: #f1f5f9;
+    --input-hover: #e2e8f0;
+    
+    /* Borders */
+    --border: #e2e8f0;
+    --border-light: #cbd5e1;
+    
+    /* Primary Color */
+    --primary: #8b5cf6;
+    --primary-hover: #7c3aed;
+    --primary-light: #a78bfa;
+    --primary-shadow: rgba(139, 92, 246, 0.1);
+    
+    /* Success */
+    --success: #059669;
+    --success-hover: #047857;
+    
+    /* Error */
+    --error: #dc2626;
+    --error-hover: #b91c1c;
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 12px 0 rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 8px 24px 0 rgba(0, 0, 0, 0.1);
+    
+    /* Transitions */
+    --transition-fast: 0.2s ease;
+    --transition-smooth: 0.3s ease;
+  }
+}
