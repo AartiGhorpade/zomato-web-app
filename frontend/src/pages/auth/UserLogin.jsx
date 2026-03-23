@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import PasswordInput from '../../components/PasswordInput'
 import '../../styles/form.css'
+import axios from 'axios'
+import toast from 'react-hot-toast'
 
 const UserLogin = () => {
   const [email, setEmail] = useState('')
@@ -11,7 +13,19 @@ const UserLogin = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    // Add your login logic here
+    axios.post('http://localhost:3000/api/user/login', {
+      email,
+      password
+    }, {
+      withCredentials: true
+    }).then((res) => {
+      console.log(res.data)
+      toast.success('Login successful! Welcome back!')
+      navigate('/')
+    }).catch((err) => {
+      console.log(err)
+      toast.error(err.response?.data?.message || 'Login failed. Please try again.')
+    })
   }
 
   const handleNavigateSignup = () => {

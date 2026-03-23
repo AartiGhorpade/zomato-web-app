@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom'
 import PasswordInput from '../../components/PasswordInput'
 import '../../styles/form.css'
 import axios from 'axios'
+import toast from 'react-hot-toast'
 
 const UserSignup = () => {
-    const [fullName, setFullName] = useState('')
+    const [fullname, setFullName] = useState('')
     const [email, setEmail] = useState('')
     const [phone, setPhone] = useState('')
     const [password, setPassword] = useState('')
@@ -14,7 +15,24 @@ const UserSignup = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        // Add your signup logic here
+
+        axios.post('http://localhost:3000/api/user/register', {
+            fullname,
+            email,
+            phone,
+            password
+        }, {
+            withCredentials: true
+        }).then((res) => {
+            console.log(res.data)
+            toast.success('Account created successfully! Welcome!')
+            navigate('/')
+        }).catch((err) => {
+            console.log(err);
+            toast.error(err.response?.data?.message || 'Registration failed. Please try again.')
+
+        })
+
     }
 
     const handleNavigateLogin = () => {
@@ -34,16 +52,16 @@ const UserSignup = () => {
                 <form onSubmit={handleSubmit}>
                     <div className="row">
                         <div className="form-group">
-                            <label htmlFor="fullName">First Name</label>
+                            <label htmlFor="fullname">Full Name</label>
                             <input
                                 type="text"
-                                id="fullName"
+                                id="fullname"
                                 placeholder="John"
-                                value={fullName}
+                                value={fullname}
                                 onChange={(e) => setFullName(e.target.value)}
                                 required
                             />
-                            {errors.fullName && <small style={{ color: 'var(--error)' }}>{errors.fullName}</small>}
+                            {errors.fullname && <small style={{ color: 'var(--error)' }}>{errors.fullname}</small>}
                         </div>
                     </div>
 
@@ -65,8 +83,9 @@ const UserSignup = () => {
                         <input
                             type="tel"
                             id="phone"
-                            placeholder="+1 (555) 000-0000"
+                            placeholder="1234568754"
                             value={phone}
+                            maxLength={10}
                             onChange={(e) => setPhone(e.target.value)}
                         />
                         {errors.phone && <small style={{ color: 'var(--error)' }}>{errors.phone}</small>}

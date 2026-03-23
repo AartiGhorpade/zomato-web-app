@@ -2,22 +2,41 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import PasswordInput from '../../components/PasswordInput'
 import '../../styles/form.css'
+import axios from 'axios'
+import toast from 'react-hot-toast'
 
 const FoodPartnerSignup = () => {
-    const [restaurantName, setRestaurantName] = useState('')
-    const [ownerName, setOwnerName] = useState('')
+    const [businessname, setRestaurantName] = useState('')
+    const [contactName, setContactName] = useState('')
     const [email, setEmail] = useState('')
     const [phone, setPhone] = useState('')
-    const [businessLicense, setBusinessLicense] = useState('')
     const [address, setAddress] = useState('')
     const [password, setPassword] = useState('')
-    const [confirmPassword, setConfirmPassword] = useState('')
     const [errors, setErrors] = useState({})
     const navigate = useNavigate()
 
     const handleSubmit = (e) => {
+        console.log(contactName);
+        
         e.preventDefault()
-        // Add your signup logic here
+        axios.post('http://localhost:3000/api/foodPartner/register', {
+            fullname: businessname,
+            contactname: contactName,
+            email,
+            phone,
+            address,
+            password
+        })
+            .then((response) => {
+                console.log(response.data)
+                toast.success('Partner registration successful! Welcome to our platform!')
+                navigate('/')
+            })
+            .catch((error) => {
+                console.error('Error:', error)
+                toast.error(error.response?.data?.message || 'Registration failed. Please try again.')
+            })
+
     }
 
     const handleNavigateLogin = () => {
@@ -37,28 +56,28 @@ const FoodPartnerSignup = () => {
                 <form onSubmit={handleSubmit}>
                     <div className="row">
                         <div className="form-group">
-                            <label htmlFor="restaurantName">Restaurant Name</label>
+                            <label htmlFor="businessname">Business Name</label>
                             <input
                                 type="text"
-                                id="restaurantName"
-                                placeholder="Your Restaurant"
-                                value={restaurantName}
+                                id="businessname"
+                                placeholder="Business Name"
+                                value={businessname}
                                 onChange={(e) => setRestaurantName(e.target.value)}
                                 required
                             />
-                            {errors.restaurantName && <small style={{ color: 'var(--error)' }}>{errors.restaurantName}</small>}
+                            {errors.businessname && <small style={{ color: 'var(--error)' }}>{errors.businessname}</small>}
                         </div>
                         <div className="form-group">
-                            <label htmlFor="ownerName">Owner Name</label>
+                            <label htmlFor="contactName">Contact Name</label>
                             <input
                                 type="text"
-                                id="ownerName"
+                                id="contactName"
                                 placeholder="John Doe"
-                                value={ownerName}
-                                onChange={(e) => setOwnerName(e.target.value)}
+                                value={contactName}
+                                onChange={(e) => setContactName(e.target.value)}
                                 required
                             />
-                            {errors.ownerName && <small style={{ color: 'var(--error)' }}>{errors.ownerName}</small>}
+                            {errors.contactName && <small style={{ color: 'var(--error)' }}>{errors.contactName}</small>}
                         </div>
                     </div>
 
@@ -89,7 +108,7 @@ const FoodPartnerSignup = () => {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="address">Restaurant Address</label>
+                        <label htmlFor="address">Address</label>
                         <textarea
                             id="address"
                             placeholder="Enter your complete address"
@@ -127,7 +146,7 @@ const FoodPartnerSignup = () => {
                     </div>
 
                     <button type="submit" className="btn">
-                        Register Restaurant
+                        Create Partner
                     </button>
                 </form>
 
@@ -162,7 +181,7 @@ const FoodPartnerSignup = () => {
                 </button>
 
                 <div className="footer-text">
-                    Already registered?{' '}
+                    Already have an account?{' '}
                     <span onClick={handleNavigateLogin}>Sign in</span>
                 </div>
             </div>
