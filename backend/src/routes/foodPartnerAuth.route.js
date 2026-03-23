@@ -8,6 +8,8 @@ const {
 const { authFoodPartnerMiddleware } = require("../middlewares/auth.middleware");
 const route = express.Router();
 
+
+
 route.post("/register", registerPartner);
 route.post("/login", loginPartner);
 route.post("/logout", logoutPartner);
