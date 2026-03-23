@@ -73,9 +73,35 @@ async function loginPartner(req, res) {
   }
 }
 
+async function getFoodPartnerProfile(req, res) {
+  const partnerId = req.params.id;
+  console.log(partnerId);
+
+  try {
+    const foodPartner = await FoodPartner.findById(partnerId);
+    console.log(foodPartner);
+
+    if (!foodPartner) {
+      return res.status(404).json({ message: "Food Partner not found" });
+    }
+    res.status(200).json({
+      message: "Partner profile fetched successfully",
+      data: foodPartner,
+    });
+  } catch (e) {
+    res.status(400).json({ message: "Something went wrong" });
+    console.log("Error while fetching partner profile", e);
+  }
+}
+
 async function logoutPartner(req, res) {
   res.clearCookie("token");
   res.status(200).json({ message: "Partner logged out successfully" });
 }
 
-module.exports = { registerPartner, loginPartner, logoutPartner };
+module.exports = {
+  registerPartner,
+  loginPartner,
+  logoutPartner,
+  getFoodPartnerProfile,
+};
